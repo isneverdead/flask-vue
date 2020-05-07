@@ -78,7 +78,7 @@ export default {
             } 
           }
         axios
-            .get('http://awanpc.pythonanywhere.com/books/' ,config)
+            .get('https://awanpc.pythonanywhere.com/books/' ,config)
             .then(response => {
               this.books = response
               console.log(response)
