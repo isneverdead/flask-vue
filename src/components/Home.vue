@@ -4,47 +4,52 @@
         <div class="col-lg-6">
             {{ books }}
         <b-form inline>
-            <label class="sr-only" for="inline-form-input-name">Name</label>
+            <label class="sr-only" for="inline-form-input-name">Author</label>
             <b-input
+            v-model="author"
             id="inline-form-input-name"
             class="mb-2 mr-sm-2 mb-sm-0"
-            placeholder="Jane Doe"
+            placeholder="Author"
             ></b-input>
 
-            <label class="sr-only" for="inline-form-input-name">Name</label>
+            <label class="sr-only" for="inline-form-input-name">Title</label>
             <b-input
+            v-model="title"
             id="inline-form-input-name"
             class="mb-2 mr-sm-2 mb-sm-0"
-            placeholder="Jane Doe"
+            placeholder="Title"
             ></b-input>
 
-            <label class="sr-only" for="inline-form-input-name">Name</label>
+            <label class="sr-only" for="inline-form-input-name">first sentence</label>
             <b-input
+            v-model="first_sentence"
             id="inline-form-input-name"
             class="mb-2 mr-sm-2 mb-sm-0"
-            placeholder="Jane Doe"
+            placeholder="first sentence"
             ></b-input>
 
-            <label class="sr-only" for="inline-form-input-name">Name</label>
+            <label class="sr-only" for="inline-form-input-name">Published</label>
             <b-input
+            v-model="published"
             id="inline-form-input-name"
             class="mb-2 mr-sm-2 mb-sm-0"
-            placeholder="Jane Doe"
+            placeholder="Published"
             ></b-input>
 
-            <b-button variant="primary">Save</b-button>
+            <b-button @click="save" variant="primary">Save</b-button>
         </b-form>
         </div>
 
         <div class="col-lg-6">
             <div class="list-group">
-            <div>
-                <div class="list-group-item list-group-item-action">
-                    <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">List group item heading</h5>
-                    <small class="text-muted">3 days ago</small>
-                    </div>
-                    <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+            <div v-for="book in books" :key="book.id">
+                 <div class="list-group-item list-group-item-action">
+                    <!-- <div class="d-flex w-100 justify-content-between">
+                    </div> -->
+                    <h5 class="mb-1">{{ book.title }}</h5>
+                    <small class="text-muted">Published : {{ book.published }}</small>
+                    <p class="mb-0">Author : {{ book.first_sentence }}</p><br>
+                    <p class="mb-1">First Sentence : {{ book.author }}</p>
                     <button class="text-muted mr-1">Edit</button> 
                     <button class="text-muted">Delete</button>
                 </div>
@@ -64,23 +69,29 @@ export default {
     name: 'Home',
     data() {
         return {
-            books: ''
+            books: '',
+            author: '',
+            title: '',
+            published: '',
+            first_sentence: ''
         }
     },
     methods: {
-
+      save() {
+        axios.post('https://isneverdead2.pythonanywhere.com/books', {
+            author: this.author,
+            title: this.title,
+            published: this.published,
+            first_sentence: this.first_sentence
+        })
+      }
     },
     mounted() {
-        const config = { 
-          headers: {
-              'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-              'Access-Control-Allow-Origin': '*'
-            } 
-          }
+        
         axios
-            .get('https://isneverdead2.pythonanywhere.com/books/' ,config)
+            .get('https://isneverdead2.pythonanywhere.com/books/')
             .then(response => {
-              this.books = response
+              this.books = response.data.developers
               console.log(response)
               })
             .catch(err => {console.log(err)})
