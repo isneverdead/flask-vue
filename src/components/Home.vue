@@ -81,7 +81,7 @@ export default {
         axios
             .get('https://akbar-cors.herokuapp.com/https://isneverdead.pythonanywhere.com/books/')
             .then(response => {
-              this.books = response.data.Books
+              this.books = response.data.developers
               console.log(response)
               })
             .catch(err => {console.log(err)})
