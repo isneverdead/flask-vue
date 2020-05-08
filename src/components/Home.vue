@@ -47,8 +47,8 @@
                     </div> -->
                     <h5 class="mb-1">{{ book.title }}</h5>
                     <small class="text-muted">Published : {{ book.published }}</small>
-                    <p class="mb-0">Author : {{ book.first_sentence }}</p><br>
-                    <p class="mb-1">First Sentence : {{ book.author }}</p>
+                    <p class="mb-0">First Sentence : {{ book.first_sentence }}</p><br>
+                    <p class="mb-1">Author : {{ book.author }}</p>
                     <button class="text-muted mr-1 " @click="editBook(book)">Edit</button> 
                     <button class="text-muted" @click="deleteBook(book)" >Delete</button>
                 </div>
