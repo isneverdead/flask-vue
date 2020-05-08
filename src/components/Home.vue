@@ -79,7 +79,7 @@ export default {
     methods: {
       fetchBook() {
         axios
-            .get('https://akbar-cors.herokuapp.com/https://awanpc.pythonanywhere.com/books/')
+            .get('https://akbar-cors.herokuapp.com/https://isneverdead.pythonanywhere.com/books/')
             .then(response => {
               this.books = response.data.Books
               console.log(response)
@@ -97,7 +97,7 @@ export default {
           published: this.published,
           first_sentence: this.first_sentence
         })
-        axios.post('https://akbar-cors.herokuapp.com/https://awanpc.pythonanywhere.com/books', data, {
+        axios.post('https://akbar-cors.herokuapp.com/https://isneverdead.pythonanywhere.com/books', data, {
           headers: {
             'Content-Type': 'application/json',
         }
@@ -109,7 +109,7 @@ export default {
         this.fetchBook()
       },
       deleteBook(book) {
-        axios.delete('https://akbar-cors.herokuapp.com/https://awanpc.pythonanywhere.com/books/'+book.id )
+        axios.delete('https://akbar-cors.herokuapp.com/https://isneverdead.pythonanywhere.com/books/'+book.id )
       this.fetchBook()
       },
 
@@ -121,7 +121,7 @@ export default {
         this.first_sentence = book.first_sentence
       }, 
       saveBook(){
-        axios.put('https://akbar-cors.herokuapp.com/https://awanpc.pythonanywhere.com/books/'+this.id+'/', {
+        axios.put('https://akbar-cors.herokuapp.com/https://isneverdead.pythonanywhere.com/books/'+this.id+'/', {
           author: this.author,
           title: this.title,
           published: this.published,
