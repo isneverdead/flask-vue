@@ -2,7 +2,6 @@
   <div class="container">
     <div class="row">
         <div class="col-lg-6">
-            {{ books }}
         <b-form inline>
             <label class="sr-only" for="inline-form-input-name">Author</label>
             <b-input
@@ -36,7 +35,7 @@
             placeholder="Published"
             ></b-input>
 
-            <b-button @click="save" variant="primary">Save</b-button>
+            <b-button @click="tambahBuku" variant="primary">Save</b-button>
         </b-form>
         </div>
 
@@ -50,8 +49,8 @@
                     <small class="text-muted">Published : {{ book.published }}</small>
                     <p class="mb-0">Author : {{ book.first_sentence }}</p><br>
                     <p class="mb-1">First Sentence : {{ book.author }}</p>
-                    <button class="text-muted mr-1">Edit</button> 
-                    <button class="text-muted">Delete</button>
+                    <button class="text-muted mr-1 " @click="editBook(book)">Edit</button> 
+                    <button class="text-muted" @click="deleteBook(book)" >Delete</button>
                 </div>
             </div>
             
@@ -69,6 +68,7 @@ export default {
     name: 'Home',
     data() {
         return {
+            id: '',
             books: '',
             author: '',
             title: '',
@@ -77,24 +77,60 @@ export default {
         }
     },
     methods: {
-      save() {
-        axios.post('https://isneverdead2.pythonanywhere.com/books', {
-            author: this.author,
-            title: this.title,
-            published: this.published,
-            first_sentence: this.first_sentence
-        })
-      }
-    },
-    mounted() {
-        
+      fetchBook() {
         axios
-            .get('https://isneverdead2.pythonanywhere.com/books/')
+            .get('https://akbar-cors.herokuapp.com/https://awanpc.pythonanywhere.com/books/')
             .then(response => {
-              this.books = response.data.developers
+              this.books = response.data.Books
               console.log(response)
               })
             .catch(err => {console.log(err)})
+      },
+      tambahBuku() {
+        if(this.id) this.saveBook()
+        else this.addBook()
+      },
+      addBook() {
+        let data = JSON.stringify({
+          author: this.author,
+          title: this.title,
+          published: this.published,
+          first_sentence: this.first_sentence
+        })
+        axios.post('https://akbar-cors.herokuapp.com/https://awanpc.pythonanywhere.com/books', data, {
+          headers: {
+            'Content-Type': 'application/json',
+        }
+        })
+        .then(response => {
+              console.log(response)
+              })
+            .catch(err => {console.log(err)})
+        this.fetchBook()
+      },
+      deleteBook(book) {
+        axios.delete('https://akbar-cors.herokuapp.com/https://awanpc.pythonanywhere.com/books/'+book.id )
+      this.fetchBook()
+      },
+
+      editBook(book) {
+        this.id = book.id
+        this.author = book.author,
+        this.title = book.title,
+        this.published = book.published,
+        this.first_sentence = book.first_sentence
+      }, 
+      saveBook(){
+        axios.put('https://akbar-cors.herokuapp.com/https://awanpc.pythonanywhere.com/books/'+this.id+'/', {
+          author: this.author,
+          title: this.title,
+          published: this.published,
+          first_sentence: this.first_sentence
+        }) 
+      }
+    },
+    mounted() {
+        this.fetchBook()
     }
 }
 </script>
