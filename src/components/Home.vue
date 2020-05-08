@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <a href="https://isneverdead.pythonanywhere.com/books">lihat json</a>
+    <a href="https://isneverdead.pythonanywhere.com/books">lihat json</a><br>
+    <button class="primary" @click="reloadPage">Reload Page</button>
     <div class="row">
         <div class="col-lg-6">
         <b-form inline>
@@ -77,7 +78,11 @@ export default {
             first_sentence: ''
         }
     },
+    
     methods: {
+      reloadPage() {
+        this.$router.go()
+      },
       fetchBook() {
         axios
             .get('https://akbar-cors.herokuapp.com/https://isneverdead.pythonanywhere.com/books/')
@@ -104,10 +109,9 @@ export default {
         }
         })
         .then(response => {
-              console.log(response)
-              })
-            .catch(err => {console.log(err)})
-        this.fetchBook()
+          console.log(response)
+          })
+        .catch(err => {console.log(err)})
       },
       deleteBook(book) {
         axios.delete('https://akbar-cors.herokuapp.com/https://isneverdead.pythonanywhere.com/books/'+book.id )
@@ -127,6 +131,9 @@ export default {
           title: this.title,
           published: this.published,
           first_sentence: this.first_sentence
+        })
+        .then(response => {
+          console.log(response)
         }) 
       }
     },
